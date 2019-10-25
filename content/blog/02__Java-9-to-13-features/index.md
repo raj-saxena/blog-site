@@ -6,7 +6,9 @@ slug: "02__Java-9-to-13-features"
 ---
 
 Programming tools, frameworks are becoming more and more developer friendly and offer better and modern features to boost developer productivity.  
-Java was for a long time infamous for having slow release train. However, keeping up with times, Java has moved to a cadence of releasing new features with a version upgrade every 6 months. Since then there have been a lot of cool features and tools that have been added. 
+Java was for a long time infamous for having slow release trains. 
+However, keeping up with times, Java has moved to a cadence of releasing new features with a version upgrade every 6 months (every March and September). 
+Since then there have been a lot of cool features and tools that have been added to every java developer's toolset. 
 
 This is __a quick summary of the latest features introduced between Java 9 to Java 13__.
 
@@ -17,11 +19,11 @@ This is not an exhaustive list.
 **Module system**: Helps in modularisation of large apps. This helps to limit exposure of classes that are public in the module vs the true public api of the module. 
 Explicitly define dependencies and exports in `module-info.java`. Eg:
 ```java
-    module chef {
-      exports com.tbst.recipe;
-    
-      requires kitchen;
-    }
+module chef {
+  exports com.tbst.recipe;
+
+  requires kitchen;
+}
 ```
 Here, the module `chef` depends on module `kitchen` and exports module `recipe`.
 
@@ -32,14 +34,14 @@ Here, the module `chef` depends on module `kitchen` and exports module `recipe`.
 
 **Collection factory methods**: Earlier, one had to initialize an implementation of a collection (Map, Set, List) first and then add objects to it. Finally, it's possible to create the ***immutable*** collections with static factory methods of the signature `<Collection>.of()`. This is achieved by having a bunch of static methods in each of the respective interfaces. Eg:
 ```java
-    // Creates an immutable list
-    List<String> abcs = List.of("A", "B", "C");
+// Creates an immutable list
+List<String> abcs = List.of("A", "B", "C");
 
-    // Creates an immutable set
-    Set<String> xyzs = Set.of("X", "Y", "Z");
+// Creates an immutable set
+Set<String> xyzs = Set.of("X", "Y", "Z");
 
-    // Creates an immutable Map
-    Map<String, String> mappings = Map.of("key1", "value1", "key2", "value2");
+// Creates an immutable Map
+Map<String, String> mappings = Map.of("key1", "value1", "key2", "value2");
 ```
 
 **Other features**
@@ -51,8 +53,8 @@ ____
 ## Java 10
 **Local-Variable Type Inference**: This enables us to write more modern Kotlin/Scala/Typescript like syntax where you don't have to explicitly declare the variable type without compromising type safety. Here, the compiler is able to figure out the type because of the type of the value on the right hand side in case of assignments. Eg:
 ```java
-    var list = new ArrayList<String>();  // infers ArrayList<String>
-    var stream = list.stream();          // infers Stream<String>
+var list = new ArrayList<String>();  // infers ArrayList<String>
+var stream = list.stream();          // infers Stream<String>
 ```
 
 In cases where the compiler cannot infer the value or it's ambiguous, you need to explicitly declare it. More details [here](http://openjdk.java.net/jeps/286)
@@ -76,7 +78,7 @@ ____
 This is introduced to have uniformity with use of `var` for local variables. Eg:
 
 ```java
-    (var x, var y) -> x.process(y)   // implicit typed lambda expression
+(var x, var y) -> x.process(y)   // implicit typed lambda expression
 
 // One benefit of uniformity is that modifiers, notably annotations, can be applied
 // to local variables and lambda variables without losing brevity.
@@ -96,16 +98,16 @@ ____
 **Switch expression😎** The new `switch` expression expects a returns value. Multiple matches can go on the same line separated by comma and what happens on match is marked with `->`.
 Unlike the traditional `switch`, matches don't fall through to the next match. So you don't have to use `break;` and this helps prevent bugs. Eg:
 ```java
-        String status = process(..., ..., ...);
-        var isCompleted = switch (status) {
-            case "PROCESSED", "COMPLETED" -> true;
-            case "WAITING", "STUCK" -> false;
-            default -> throw new InconsistentProcessingStateException();
-        };
+String status = process(..., ..., ...);
+var isCompleted = switch (status) {
+    case "PROCESSED", "COMPLETED" -> true;
+    case "WAITING", "STUCK" -> false;
+    default -> throw new InconsistentProcessingStateException();
+};
 ```
 The switch expression is introduced as a preview and requires `--enable-preview` flag to the javac or enabling it in your IDE.
 
-**File byte comparison** with `File.mismatch`. ([From Javadoc](https://docs.oracle.com/en/java/javase/12/docs/api/java.base/java/nio/file/Files.html#mismatch(java.nio.file.Path,java.nio.file.Path))) Finds and returns the position of the first mismatched byte in the content of two files, or -1L if there is no mismatch.
+**File byte comparison** with `File.mismatch()`. ([From Javadoc](https://docs.oracle.com/en/java/javase/12/docs/api/java.base/java/nio/file/Files.html#mismatch(java.nio.file.Path,java.nio.file.Path))) Finds and returns the position of the first mismatched byte in the content of two files, or -1L if there is no mismatch.
 
 **Collections.teeing** Streams API gets a new function that applies 2 functions (consumers) on the items and then merges/combines the result of those 2 functions using a third function to produce the final result.  
 [From Javadoc](https://docs.oracle.com/en/java/javase/12/docs/api/java.base/java/util/stream/Collectors.html#teeing(java.util.stream.Collector,java.util.stream.Collector,java.util.function.BiFunction)) - Returns a Collector that is a composite of two downstream collectors. Every element passed to the resulting collector is processed by both downstream collectors, then their results are merged using the specified merge function into the final result. 
@@ -114,12 +116,12 @@ The switch expression is introduced as a preview and requires `--enable-preview`
 
 **Smart cast** `instanceOf` can be used now to do a smart cast as below:
 ```java
-    ...
-    } catch (Exception ex) {
-        if(ex instanceOf InconsistentProcessingStateException ipse) {
-            // use ipse directly as InconsistentProcessingStateException
-        }
+...
+} catch (Exception ex) {
+    if(ex instanceOf InconsistentProcessingStateException ipse) {
+        // use ipse directly as InconsistentProcessingStateException
     }
+}
 ```
 
 **JVM improvments**: Low pause GC with Shenandoah, micro-benchmark capabilities, constants API and other improvements.
@@ -129,25 +131,25 @@ ____
 
 **Multi-line texts**: It's now possible to define multiline strings without ugly escape sequences `\` or appends. Eg:
 ```java
-        var jsonBody = """
-            {
-                "name": "Foo",
-                "age": 22
-            }
-        """;
+var jsonBody = """
+    {
+        "name": "Foo",
+        "age": 22
+    }
+""";
 ```
 This is introduced as a preview and requires `--enable-preview` flag to the javac or enabling it in your IDE.
 
-**String** gets more methods like `formatted`, `stripIndent` and `translateEscapes` for working with multi-line texts.
+**String** gets more methods like `formatted()`, `stripIndent()` and `translateEscapes()` for working with multi-line texts.
 
 **Switch expression** Still in preview and based on feedback now supports having `: yield` syntax in addition to `->` syntax. Hence, we can write
 ```java
-        String status = process(..., ..., ...);
-        var isCompleted = switch (status) {
-            case "PROCESSED", "COMPLETED": yield true;
-            case "WAITING", "STUCK": yield false;
-            default: throw new RuntimeException();
-        };
+String status = process(..., ..., ...);
+var isCompleted = switch (status) {
+    case "PROCESSED", "COMPLETED": yield true;
+    case "WAITING", "STUCK": yield false;
+    default: throw new RuntimeException();
+};
 ```
 
 **Socket API** reimplemented with modern NIO implementation. This is being done to overcome limitations of legacy api and build a better path towards Fiber as part of [Project Loom](https://cr.openjdk.java.net/~rpressler/loom/Loom-Proposal.html)
@@ -155,10 +157,11 @@ This is introduced as a preview and requires `--enable-preview` flag to the java
 **Z GC** improved to release unused memory.
 ___
 Wow, it's getting crazy out there. 
-If you are a developer that started a decent size Java project recently in the hopes that you would use the latest features and keep yourself and the project updated with the latest versions, do you feel a pressure to catchup with these frequent releases?
-Tweet me your replies.
+If you are a developer that started a decent size Java project recently in the hopes that you would use the latest features and keep yourself and the project updated with the latest versions, do you feel a pressure to catchup with these frequent releases?  
+Add your comments below or tweet them to me.
 
-I use [Jenv](https://github.com/jenv/jenv) to easily switch between different jdk versions locally.
+
+A parting gift - I use [Jenv](https://github.com/jenv/jenv) to easily switch between different jdk versions locally while switching between different projects. It's pretty cool to manage multiple jdk versions.
 
 ___
 ### References and good articles:
