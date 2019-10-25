@@ -22,7 +22,7 @@ const BlogIndex = ({ data }: Props) => {
   const posts = data.allMarkdownRemark.edges
 
   return (
-    <Layout location={window.location} title={siteTitle}>
+    typeof window !== `undefined` && <Layout location={window.location} title={siteTitle}>
       <SEO title="All posts" />
       <Bio />
       {posts.map(({ node }) => {
