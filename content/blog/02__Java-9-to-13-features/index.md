@@ -16,7 +16,7 @@ This is not an exhaustive list.
 ## Java 9
 **Module system**: Helps in modularisation of large apps. This helps to limit exposure of classes that are public in the module vs the true public api of the module. 
 Explicitly define dependencies and exports in `module-info.java`. Eg:
-```
+```java
     module chef {
       exports com.tbst.recipe;
     
