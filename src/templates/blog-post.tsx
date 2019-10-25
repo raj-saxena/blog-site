@@ -1,5 +1,6 @@
 import React from "react"
 import { Link, graphql } from "gatsby"
+import { DiscussionEmbed } from "disqus-react"
 
 import Bio from "../components/bio"
 import Layout from "../components/layout"
@@ -20,11 +21,20 @@ interface Props {
 
 const BlogPostTemplate = ({ data, pageContext }) => {
   const post = data.markdownRemark
-  const siteTitle = data.site.siteMetadata.title
+  const { title, siteUrl } = data.site.siteMetadata
   const { previous, next } = pageContext
 
+  const disqusConfig = {
+    shortname: process.env.GATSBY_DISQUS_NAME || '',
+    config: {
+      url: siteUrl,
+      identifier: post.frontmatter.slug,
+      title
+    },
+  }
+
   return (
-    typeof window !== `undefined` && <Layout location={window.location} title={siteTitle}>
+    typeof window !== `undefined` && <Layout location={window.location} title={title}>
       <SEO
         title={post.frontmatter.title}
         description={post.frontmatter.description || post.excerpt}
@@ -58,6 +68,7 @@ const BlogPostTemplate = ({ data, pageContext }) => {
         <footer>
           <Bio />
         </footer>
+        <DiscussionEmbed {...disqusConfig} />
       </article>
 
       <nav>
@@ -98,6 +109,7 @@ export const pageQuery = graphql`
       siteMetadata {
         title
         author
+        siteUrl
       }
     }
     markdownRemark(fields: { slug: { eq: $slug } }) {

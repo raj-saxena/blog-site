@@ -3,7 +3,7 @@ module.exports = {
     title: `Tech Blog`,
     author: `Raj Saxena`,
     description: `Start of a journey.`,
-    siteUrl: `https://gatsby-starter-blog-demo.netlify.com/`,
+    siteUrl: `https://suspendfun.com/`,
     social: {
       twitter: `therajsaxena`,
     },

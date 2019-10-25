@@ -1,13 +1,11 @@
 {
-  "name": "gatsby-starter-blog",
+  "name": "blog-site",
   "private": true,
-  "description": "A starter for a blog powered by Gatsby and Markdown",
+  "description": "Blog site for suspendfun.com",
   "version": "0.1.0",
-  "author": "Kyle Mathews <mathews.kyle@gmail.com>",
-  "bugs": {
-    "url": "https://github.com/gatsbyjs/gatsby/issues"
-  },
+  "author": "Raj Saxena <the.raj.saxena@gmail.com>",
   "dependencies": {
+    "disqus-react": "^1.0.7",
     "gatsby": "^2.16.1",
     "gatsby-image": "^2.2.29",
     "gatsby-plugin-feed": "^2.3.18",
