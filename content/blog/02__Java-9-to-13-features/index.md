@@ -5,12 +5,14 @@ description: "Top features released after Java 8 between Java 9 to 13"
 slug: "02__Java-9-to-13-features"
 ---
 
+
 Programming tools, frameworks are becoming more and more developer friendly and offer better and modern features to boost developer productivity.  
 Java was for a long time infamous for having slow release trains. 
 However, keeping up with times, Java has moved to a cadence of releasing new features with a version upgrade every 6 months (every March and September). 
 Since then there have been a lot of cool features and tools that have been added to every java developer's toolset. 
 
 This is __a quick summary of the latest features introduced between Java 9 to Java 13__.
+![open-jdk](./openjdk.jpg)
 
 Please note, the features that I talk about here are the ones that, I believe, either add cool features or increase developer productivity the most.  
 This is not an exhaustive list. 
@@ -156,6 +158,7 @@ var isCompleted = switch (status) {
 
 **Z GC** improved to release unused memory.
 ___
+![duke thinking](duke-thinking.png)
 Wow, it's getting crazy out there. 
 If you are a developer that started a decent size Java project recently in the hopes that you would use the latest features and keep yourself and the project updated with the latest versions, do you feel a pressure to catchup with these frequent releases?  
 Add your comments below or tweet them to me.
@@ -165,18 +168,8 @@ A parting gift - I use [Jenv](https://github.com/jenv/jenv) to easily switch bet
 
 ___
 ### References and good articles:
-* Java 9 
-    - https://www.pluralsight.com/blog/software-development/java-9-new-features
-* Java 10
-    - https://www.techworld.com/developers/java-10-features-whats-new-in-java-10-3680317/
-    - https://dzone.com/articles/java-10-new-features-and-enhancements
-* Java 11
-    - https://www.geeksforgeeks.org/java-11-features-and-comparison/
-    - https://www.journaldev.com/24601/java-11-features
-* Java 12
-    - https://www.journaldev.com/28666/java-12-features
-    - https://stackify.com/java-12-new-features-and-enhancements-developers-should-know/
-* Java 13
-    - https://jaxenter.com/java-13-jdk-deep-dive-new-features-162272.html
-    - https://www.infoworld.com/article/3340052/jdk-13-the-new-features-in-java-13.html
-    - https://dzone.com/articles/81-new-features-and-apis-in-jdk-13
+* Java 9 - [pluralsite](https://www.pluralsight.com/blog/software-development/java-9-new-features)
+* Java 10 - [techworld](https://www.techworld.com/developers/java-10-features-whats-new-in-java-10-3680317/), [dzone](https://dzone.com/articles/java-10-new-features-and-enhancements)
+* Java 11 - [geeksforgeeks](https://www.geeksforgeeks.org/java-11-features-and-comparison/), [journaldev](https://www.journaldev.com/24601/java-11-features)
+* Java 12 - [journaldev](https://www.journaldev.com/28666/java-12-features), [stackify](https://stackify.com/java-12-new-features-and-enhancements-developers-should-know/)
+* Java 13 - [jaxenter](https://jaxenter.com/java-13-jdk-deep-dive-new-features-162272.html), [infoworld](https://www.infoworld.com/article/3340052/jdk-13-the-new-features-in-java-13.html), [dzone](https://dzone.com/articles/81-new-features-and-apis-in-jdk-13)
