@@ -2,7 +2,7 @@ module.exports = {
   siteMetadata: {
     title: `Tech Blog`,
     author: `Raj Saxena`,
-    description: `Start of a journey.`,
+    description: `Raj Saxena's blog about technical things.`,
     siteUrl: `https://suspendfun.com/`,
     social: {
       twitter: `therajsaxena`,
