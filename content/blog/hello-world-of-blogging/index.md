@@ -2,7 +2,6 @@
 title: Hello World
 date: "2019-10-25T11:00:00.000Z"
 description: "Hello World"
-slug: "01__hello-world"
 ---
 
 Finally, after years - I have my own blog.

@@ -12,7 +12,8 @@ interface Props {
     markdownRemark: any
     site: {
       siteMetadata: {
-        title: String
+        title: string
+        siteUrl: string
       }
     }
   }
@@ -22,21 +23,24 @@ interface Props {
 const BlogPostTemplate = ({ data, pageContext }) => {
   const post = data.markdownRemark
   const { title, siteUrl } = data.site.siteMetadata
-  const { previous, next } = pageContext
+  const { previous, next, slug } = pageContext
+  const blogTitle = post.frontmatter.title
+
+  const location: any = typeof window !== `undefined` && window.location
 
   const disqusConfig = {
     shortname: process.env.GATSBY_DISQUS_NAME || '',
     config: {
-      url: siteUrl,
-      identifier: post.frontmatter.slug,
-      title
+      url: `${siteUrl}${location.pathname || ''}`,
+      identifier: slug,
+      blogTitle
     },
   }
 
   return (
-    typeof window !== `undefined` && <Layout location={window.location} title={title}>
+    location && <Layout location={location} title={title}>
       <SEO
-        title={post.frontmatter.title}
+        title={blogTitle}
         description={post.frontmatter.description || post.excerpt}
       />
       <article>
@@ -47,7 +51,7 @@ const BlogPostTemplate = ({ data, pageContext }) => {
               marginBottom: 0,
             }}
           >
-            {post.frontmatter.title}
+            {blogTitle}
           </h1>
           <p
             style={{
@@ -108,7 +112,6 @@ export const pageQuery = graphql`
     site {
       siteMetadata {
         title
-        author
         siteUrl
       }
     }
