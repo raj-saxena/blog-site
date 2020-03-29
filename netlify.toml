@@ -1,2 +1,5 @@
 [context.production.environment]
     GATSBY_DISQUS_NAME = "suspendfun"
+
+[context.branch-deploy]
+  command = "make staging"
