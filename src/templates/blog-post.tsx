@@ -25,7 +25,7 @@ const BlogPostTemplate = ({ data, pageContext }) => {
   const { title, siteUrl } = data.site.siteMetadata
   const { previous, next, slug } = pageContext
   const blogTitle = post.frontmatter.title
-  const thumbnail = post.frontmatter.thumbnail 
+  const thumbnail = post.frontmatter.thumbnail
 
   const location: any = typeof window !== `undefined` && window.location
 
@@ -39,24 +39,48 @@ const BlogPostTemplate = ({ data, pageContext }) => {
   }
 
   return (
-    location && <Layout location={location} title={title}>
-      <SEO
-        title={post.frontmatter.title}
-        description={post.frontmatter.description || post.excerpt}
-        thumbnail={thumbnail}
-      />
-      <article>
-        <header>
-          <h1
+    location && (
+      <Layout location={location} title={title}>
+        <SEO
+          title={post.frontmatter.title}
+          description={post.frontmatter.description || post.excerpt}
+          thumbnail={thumbnail}
+        />
+        <article>
+          <header>
+            <h1
+              style={{
+                marginTop: rhythm(1),
+                marginBottom: 0,
+                fontWeight: 300,
+              }}
+            >
+              {post.frontmatter.title}
+            </h1>
+            <p
+              style={{
+                display: `flex`,
+                flexWrap: `wrap`,
+                justifyContent: `space-between`,
+                listStyle: `none`,
+                padding: 0,
+              }}
+            >
+              {post.frontmatter.date}
+            </p>
+          </header>
+          <section dangerouslySetInnerHTML={{ __html: post.html }} />
+          <hr
             style={{
-              marginTop: rhythm(1),
-              marginBottom: 0,
-              fontWeight: 300,
+              marginBottom: rhythm(1),
             }}
-          >
-             {post.frontmatter.title}
-          </h1>
-          <p
+          />
+          <footer />
+          <DiscussionEmbed {...disqusConfig} />
+        </article>
+
+        <nav>
+          <ul
             style={{
               display: `flex`,
               flexWrap: `wrap`,
@@ -65,40 +89,17 @@ const BlogPostTemplate = ({ data, pageContext }) => {
               padding: 0,
             }}
           >
-            {post.frontmatter.date}
-          </p>
-        </header>
-        <section dangerouslySetInnerHTML={{ __html: post.html }} />
-        <hr
-          style={{
-            marginBottom: rhythm(1),
-          }}
-        />
-        <footer />
-        <DiscussionEmbed {...disqusConfig} />
-      </article>
-
-      <nav>
-        <ul
-          style={{
-            display: `flex`,
-            flexWrap: `wrap`,
-            justifyContent: `space-between`,
-            listStyle: `none`,
-            padding: 0,
-          }}
-        >
-          <li>
-            {previous && (
-              <Link to={previous.fields.slug} rel="prev">
-                ← {previous.frontmatter.title}
-              </Link>
-            )}
-          </li>
-          <li>
-            {next && (
-              <Link to={next.fields.slug} rel="next">
-                {next.frontmatter.title} →
+            <li>
+              {previous && (
+                <Link to={previous.fields.slug} rel="prev">
+                  ← {previous.frontmatter.title}
+                </Link>
+              )}
+            </li>
+            <li>
+              {next && (
+                <Link to={next.fields.slug} rel="next">
+                  {next.frontmatter.title} →
                 </Link>
               )}
             </li>
