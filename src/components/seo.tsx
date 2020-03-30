@@ -59,21 +59,37 @@ const SEO = ({ description, lang, meta, title }: Props) => {
           content: `website`,
         },
         {
-          name: `twitter:card`,
+          property: `twitter:card`,
           content: `summary`,
         },
         {
-          name: `twitter:creator`,
-          content: site.siteMetadata.author,
+          property: `twitter:creator`,
+          content: "Raj Saxena",
         },
         {
-          name: `twitter:title`,
+          property: `twitter:title`,
           content: title,
         },
         {
-          name: `twitter:description`,
+          property: `twitter:description`,
           content: metaDescription,
         },
+        // {
+        //   name: `twitter:card`,
+        //   content: `summary`,
+        // },
+        // {
+        //   name: `twitter:creator`,
+        //   content: site.siteMetadata.author,
+        // },
+        // {
+        //   name: `twitter:title`,
+        //   content: title,
+        // },
+        // {
+        //   name: `twitter:description`,
+        //   content: metaDescription,
+        // },
       ].concat(meta || [])}
     />
   )
