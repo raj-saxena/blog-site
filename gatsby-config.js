@@ -1,9 +1,16 @@
 module.exports = {
   siteMetadata: {
-    title: `Tech Learnings for future self`,
-    author: `Raj Saxena`,
+    title: `Suspend Fun: Tech Learnings for Future Self`,
+    customHeaderTitle: {
+      title: `Suspend Fun`,
+      extra: `Tech Learnings for Future Self`,
+    },
+    author: {
+      name: `Raj Saxena`,
+      summary: `who lives and works in Berlin building useful things.`,
+    },
     description: `Raj Saxena's blog about technical things.`,
-    siteUrl: `https://suspendfun.com/`,
+    siteUrl: `https://suspendfun.com`,
     social: {
       twitter: `therajsaxena`,
     },
@@ -80,12 +87,11 @@ module.exports = {
                 host: "localhost",
                 global: false,
               },
-            }
+            },
           },
           `gatsby-remark-copy-linked-files`,
           `gatsby-remark-smartypants`,
         ],
-        
       },
     },
     `gatsby-transformer-sharp`,
@@ -100,13 +106,13 @@ module.exports = {
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
-        name: `Gatsby Starter Blog`,
-        short_name: `GatsbyJS`,
+        name: `Suspend Fun - Technical blog by Raj Saxena`,
+        short_name: `Suspend Fun`,
         start_url: `/`,
         background_color: `#ffffff`,
         theme_color: `#663399`,
         display: `minimal-ui`,
-        icon: `content/assets/gatsby-icon.png`,
+        icon: `content/assets/favicon.png`,
       },
     },
     `gatsby-plugin-offline`,
