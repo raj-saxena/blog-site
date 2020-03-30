@@ -25,6 +25,7 @@ const BlogPostTemplate = ({ data, pageContext }) => {
   const { title, siteUrl } = data.site.siteMetadata
   const { previous, next, slug } = pageContext
   const blogTitle = post.frontmatter.title
+  const thumbnail = post.frontmatter.thumbnail 
 
   const location: any = typeof window !== `undefined` && window.location
 
@@ -38,46 +39,24 @@ const BlogPostTemplate = ({ data, pageContext }) => {
   }
 
   return (
-    location && (
-      <Layout location={location} title={title}>
-        <SEO
-          title={blogTitle}
-          description={post.frontmatter.description || post.excerpt}
-        />
-        <article>
-          <header>
-            <h1
-              style={{
-                marginTop: rhythm(1),
-                marginBottom: 0,
-              }}
-            >
-              {blogTitle}
-            </h1>
-            <p
-              style={{
-                ...scale(-1 / 5),
-                display: `block`,
-                marginBottom: rhythm(1),
-              }}
-            >
-              {post.frontmatter.date}
-            </p>
-          </header>
-          <section dangerouslySetInnerHTML={{ __html: post.html }} />
-          <hr
+    location && <Layout location={location} title={title}>
+      <SEO
+        title={post.frontmatter.title}
+        description={post.frontmatter.description || post.excerpt}
+        thumbnail={thumbnail}
+      />
+      <article>
+        <header>
+          <h1
             style={{
-              marginBottom: rhythm(1),
+              marginTop: rhythm(1),
+              marginBottom: 0,
+              fontWeight: 300,
             }}
-          />
-          <footer>
-            <Bio />
-          </footer>
-          <DiscussionEmbed {...disqusConfig} />
-        </article>
-
-        <nav>
-          <ul
+          >
+             {post.frontmatter.title}
+          </h1>
+          <p
             style={{
               display: `flex`,
               flexWrap: `wrap`,
@@ -86,17 +65,40 @@ const BlogPostTemplate = ({ data, pageContext }) => {
               padding: 0,
             }}
           >
-            <li>
-              {previous && (
-                <Link to={previous.fields.slug} rel="prev">
-                  ← {previous.frontmatter.title}
-                </Link>
-              )}
-            </li>
-            <li>
-              {next && (
-                <Link to={next.fields.slug} rel="next">
-                  {next.frontmatter.title} →
+            {post.frontmatter.date}
+          </p>
+        </header>
+        <section dangerouslySetInnerHTML={{ __html: post.html }} />
+        <hr
+          style={{
+            marginBottom: rhythm(1),
+          }}
+        />
+        <footer />
+        <DiscussionEmbed {...disqusConfig} />
+      </article>
+
+      <nav>
+        <ul
+          style={{
+            display: `flex`,
+            flexWrap: `wrap`,
+            justifyContent: `space-between`,
+            listStyle: `none`,
+            padding: 0,
+          }}
+        >
+          <li>
+            {previous && (
+              <Link to={previous.fields.slug} rel="prev">
+                ← {previous.frontmatter.title}
+              </Link>
+            )}
+          </li>
+          <li>
+            {next && (
+              <Link to={next.fields.slug} rel="next">
+                {next.frontmatter.title} →
                 </Link>
               )}
             </li>
@@ -125,6 +127,13 @@ export const pageQuery = graphql`
         title
         date(formatString: "MMMM DD, YYYY")
         description
+        thumbnail {
+          childImageSharp {
+            sizes(maxWidth: 600) {
+              ...GatsbyImageSharpSizes
+            }
+          }
+        }
       }
     }
   }

@@ -2,6 +2,7 @@ import React from "react"
 import { Link } from "gatsby"
 
 import { rhythm, scale } from "../utils/typography"
+import "./layout.css"
 
 interface Props {
   location: Location
@@ -13,65 +14,59 @@ const Layout = ({ location, title, children }: Props) => {
   const rootPath = `${__PATH_PREFIX__}/`
   let header
 
-  if (location.pathname === rootPath) {
-    header = (
-      <h1
+  header = (
+    <h1
+      style={{
+        fontSize: "38px !important",
+        fontWeight: 600,
+        textAlign: "center",
+        margin: 0,
+      }}
+    >
+      <Link
         style={{
-          ...scale(1.5),
-          marginBottom: rhythm(1.5),
-          marginTop: 0,
+          boxShadow: `none`,
+          textDecoration: `none`,
+          color: `inherit`,
         }}
+        to={`/`}
       >
-        <Link
-          style={{
-            boxShadow: `none`,
-            textDecoration: `none`,
-            color: `inherit`,
-          }}
-          to={`/`}
-        >
-          {title}
-        </Link>
-      </h1>
-    )
-  } else {
-    header = (
-      <h3
-        style={{
-          fontFamily: `Montserrat, sans-serif`,
-          marginTop: 0,
-        }}
-      >
-        <Link
-          style={{
-            boxShadow: `none`,
-            textDecoration: `none`,
-            color: `inherit`,
-          }}
-          to={`/`}
-        >
-          {title}
-        </Link>
-      </h3>
-    )
-  }
+        {title}
+      </Link>
+    </h1>
+  )
+
   return (
     <div
       style={{
-        marginLeft: `auto`,
-        marginRight: `auto`,
-        maxWidth: rhythm(24),
-        padding: `${rhythm(1.5)} ${rhythm(3 / 4)}`,
-        position: `relative`,
-        minHeight: `100vh`,
+        width: "100%",
+        margin: "0 auto",
+        position: "relative",
+        minHeight: "100vh",
       }}
     >
-      <header>{header}</header>
-      <main>{children}</main>
+      <header
+        style={{
+          padding: "2rem",
+          background: "#24384f",
+          color: "palegoldenrod",
+        }}
+      >
+        {header}
+      </header>
+      <main style={{ width: "50%", margin: "0 auto", paddingBottom: "2.5rem" }}>
+        {children}
+      </main>
       <footer
         style={{
-          position: `absolute`,
-          bottom: 20,
+          textAlign: "center",
+          background: "#333436",
+          color: "#fff",
+          padding: "20px",
+          width: "100%",
+          position: "absolute",
+          bottom: 0,
+          height: "3.5rem",
         }}
       >
         © {new Date().getFullYear()}, Built with

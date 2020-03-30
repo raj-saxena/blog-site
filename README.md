@@ -1,1 +1,3 @@
-# Blog site powering content in Markdown
+## Personal blog by Raj Saxena
+
+Powered by Gatsby markdown starter package and deployed on Netlify
