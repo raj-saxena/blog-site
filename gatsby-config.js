@@ -1,22 +1,14 @@
 module.exports = {
-    // siteMetadata: {
-    //     title: `Tech Learnings for future self`,
-    //     author: `Raj Saxena`,
-    //     description: `Raj Saxena's blog about technical things.`,
-    //     siteUrl: `https://suspendfun.com`,
-    //     social: {
-    //         twitter: `therajsaxena`,
-    //     },
-    //     pagePrefix: "",
-    //     image: "favicon.png",
-    // },
     siteMetadata: {
-        title: "Severus Snape",
-        titleTemplate: "%s · The Real Hero",
-        description: "Hogwarts Potions master, Head of Slytherin house and former Death Eater.",
-        url: "https://suspendfun.com", // No trailing slash allowed!
-        // image: "/images/snape.jpg", // Path to your image you placed in the 'static' folder
-        twitterUsername: "@therajsaxena",
+        title: `Tech Learnings for future self`,
+        author: `Raj Saxena`,
+        description: `Raj Saxena's blog about technical things.`,
+        siteUrl: `https://suspendfun.com`,
+        social: {
+            twitter: `therajsaxena`,
+        },
+        pagePrefix: "",
+        image: "favicon.png",
     },
     plugins: [{
             resolve: `gatsby-source-filesystem`,
