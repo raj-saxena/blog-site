@@ -3,10 +3,12 @@ module.exports = {
         title: `Tech Learnings for future self`,
         author: `Raj Saxena`,
         description: `Raj Saxena's blog about technical things.`,
-        siteUrl: `https://suspendfun.com/`,
+        siteUrl: `https://suspendfun.com`,
         social: {
             twitter: `therajsaxena`,
         },
+        pagePrefix: "",
+        image: "content/assets/favicon.png",
     },
     plugins: [{
             resolve: `gatsby-source-filesystem`,
@@ -78,12 +80,11 @@ module.exports = {
                                 host: "localhost",
                                 global: false,
                             },
-                        }
+                        },
                     },
                     `gatsby-remark-copy-linked-files`,
                     `gatsby-remark-smartypants`,
                 ],
-
             },
         },
         `gatsby-transformer-sharp`,
