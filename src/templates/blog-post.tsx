@@ -29,79 +29,81 @@ const BlogPostTemplate = ({ data, pageContext }) => {
   const location: any = typeof window !== `undefined` && window.location
 
   const disqusConfig = {
-    shortname: process.env.GATSBY_DISQUS_NAME || '',
+    shortname: process.env.GATSBY_DISQUS_NAME || "",
     config: {
-      url: `${siteUrl}${location.pathname || ''}`,
+      url: `${siteUrl}${location.pathname || ""}`,
       identifier: slug,
-      blogTitle
+      blogTitle,
     },
   }
 
   return (
-    location && <Layout location={location} title={title}>
-      <SEO
-        title={blogTitle}
-        description={post.frontmatter.description || post.excerpt}
-      />
-      <article>
-        <header>
-          <h1
+    location && (
+      <Layout location={location} title={title}>
+        <SEO
+          title={blogTitle}
+          description={post.frontmatter.description || post.excerpt}
+        />
+        <article>
+          <header>
+            <h1
+              style={{
+                marginTop: rhythm(1),
+                marginBottom: 0,
+              }}
+            >
+              {blogTitle}
+            </h1>
+            <p
+              style={{
+                ...scale(-1 / 5),
+                display: `block`,
+                marginBottom: rhythm(1),
+              }}
+            >
+              {post.frontmatter.date}
+            </p>
+          </header>
+          <section dangerouslySetInnerHTML={{ __html: post.html }} />
+          <hr
             style={{
-              marginTop: rhythm(1),
-              marginBottom: 0,
-            }}
-          >
-            {blogTitle}
-          </h1>
-          <p
-            style={{
-              ...scale(-1 / 5),
-              display: `block`,
               marginBottom: rhythm(1),
             }}
-          >
-            {post.frontmatter.date}
-          </p>
-        </header>
-        <section dangerouslySetInnerHTML={{ __html: post.html }} />
-        <hr
-          style={{
-            marginBottom: rhythm(1),
-          }}
-        />
-        <footer>
-          <Bio />
-        </footer>
-        <DiscussionEmbed {...disqusConfig} />
-      </article>
+          />
+          <footer>
+            <Bio />
+          </footer>
+          <DiscussionEmbed {...disqusConfig} />
+        </article>
 
-      <nav>
-        <ul
-          style={{
-            display: `flex`,
-            flexWrap: `wrap`,
-            justifyContent: `space-between`,
-            listStyle: `none`,
-            padding: 0,
-          }}
-        >
-          <li>
-            {previous && (
-              <Link to={previous.fields.slug} rel="prev">
-                ← {previous.frontmatter.title}
-              </Link>
-            )}
-          </li>
-          <li>
-            {next && (
-              <Link to={next.fields.slug} rel="next">
-                {next.frontmatter.title} →
+        <nav>
+          <ul
+            style={{
+              display: `flex`,
+              flexWrap: `wrap`,
+              justifyContent: `space-between`,
+              listStyle: `none`,
+              padding: 0,
+            }}
+          >
+            <li>
+              {previous && (
+                <Link to={previous.fields.slug} rel="prev">
+                  ← {previous.frontmatter.title}
                 </Link>
-            )}
-          </li>
-        </ul>
-      </nav>
-    </Layout>
+              )}
+            </li>
+            <li>
+              {next && (
+                <Link to={next.fields.slug} rel="next">
+                  {next.frontmatter.title} →
+                </Link>
+              )}
+            </li>
+          </ul>
+        </nav>
+      </Layout>
+    )
   )
 }
 
