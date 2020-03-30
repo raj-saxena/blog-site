@@ -1,6 +1,10 @@
 module.exports = {
     siteMetadata: {
-        title: `Suspend Fun - Tech Learnings for Future Self`,
+        title: `Suspend Fun: Tech Learnings for Future Self`,
+        customHeaderTitle: {
+            title: `Suspend Fun`,
+            extra: `Tech Learnings for Future Self`
+        },
         author: {
             name: `Raj Saxena`,
             summary: `who lives and works in Berlin building useful things.`,

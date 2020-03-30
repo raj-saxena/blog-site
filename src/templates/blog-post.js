@@ -1,47 +1,23 @@
 import React from "react"
 import { Link, graphql } from "gatsby"
-import { DiscussionEmbed } from "disqus-react"
 
 import Bio from "../components/bio"
 import Layout from "../components/layout"
 import SEO from "../components/seo"
 import { rhythm, scale } from "../utils/typography"
 
-interface Props {
-  data: {
-    markdownRemark: any
-    site: {
-      siteMetadata: {
-        title: string
-        siteUrl: string
-      }
-    }
-  }
-  pageContext: any
-}
-
-const BlogPostTemplate = ({ data, pageContext }) => {
+const BlogPostTemplate = ({ data, pageContext, location }) => {
   const post = data.markdownRemark
-  const { title, siteUrl } = data.site.siteMetadata
-  const { previous, next, slug } = pageContext
-  const blogTitle = post.frontmatter.title
-
-  const location: any = typeof window !== `undefined` && window.location
-
-  const disqusConfig = {
-    shortname: process.env.GATSBY_DISQUS_NAME || '',
-    config: {
-      url: `${siteUrl}${location.pathname || ''}`,
-      identifier: slug,
-      blogTitle
-    },
-  }
+  const siteTitle = data.site.siteMetadata.title
+  const { previous, next } = pageContext
+  const thumbnail = post.frontmatter.thumbnail 
 
   return (
-    location && <Layout location={location} title={title}>
+    <Layout location={location} title={siteTitle}>
       <SEO
-        title={blogTitle}
+        title={post.frontmatter.title}
         description={post.frontmatter.description || post.excerpt}
+        thumbnail={thumbnail}
       />
       <article>
         <header>
@@ -49,9 +25,10 @@ const BlogPostTemplate = ({ data, pageContext }) => {
             style={{
               marginTop: rhythm(1),
               marginBottom: 0,
+              fontWeight: "300",
             }}
           >
-            {blogTitle}
+            {post.frontmatter.title}
           </h1>
           <p
             style={{
@@ -69,10 +46,7 @@ const BlogPostTemplate = ({ data, pageContext }) => {
             marginBottom: rhythm(1),
           }}
         />
-        <footer>
-          <Bio />
-        </footer>
-        <DiscussionEmbed {...disqusConfig} />
+        <footer />
       </article>
 
       <nav>
@@ -96,7 +70,7 @@ const BlogPostTemplate = ({ data, pageContext }) => {
             {next && (
               <Link to={next.fields.slug} rel="next">
                 {next.frontmatter.title} →
-                </Link>
+              </Link>
             )}
           </li>
         </ul>
@@ -112,7 +86,6 @@ export const pageQuery = graphql`
     site {
       siteMetadata {
         title
-        siteUrl
       }
     }
     markdownRemark(fields: { slug: { eq: $slug } }) {
@@ -123,6 +96,13 @@ export const pageQuery = graphql`
         title
         date(formatString: "MMMM DD, YYYY")
         description
+        thumbnail {
+          childImageSharp {
+            sizes(maxWidth: 600) {
+              ...GatsbyImageSharpSizes
+            }
+          }
+        }
       }
     }
   }
