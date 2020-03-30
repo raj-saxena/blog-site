@@ -8,7 +8,7 @@ module.exports = {
             twitter: `therajsaxena`,
         },
         pagePrefix: "",
-        image: "content/assets/favicon.png",
+        image: "favicon.png",
     },
     plugins: [{
             resolve: `gatsby-source-filesystem`,
