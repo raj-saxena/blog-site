@@ -25,6 +25,7 @@ const BlogPostTemplate = ({ data, pageContext }) => {
   const { title, siteUrl } = data.site.siteMetadata
   const { previous, next, slug } = pageContext
   const blogTitle = post.frontmatter.title
+  const thumbnail = post.frontmatter.thumbnail
 
   const location: any = typeof window !== `undefined` && window.location
 
@@ -41,8 +42,9 @@ const BlogPostTemplate = ({ data, pageContext }) => {
     location && (
       <Layout location={location} title={title}>
         <SEO
-          title={blogTitle}
+          title={post.frontmatter.title}
           description={post.frontmatter.description || post.excerpt}
+          thumbnail={thumbnail}
         />
         <article>
           <header>
@@ -50,15 +52,18 @@ const BlogPostTemplate = ({ data, pageContext }) => {
               style={{
                 marginTop: rhythm(1),
                 marginBottom: 0,
+                fontWeight: 300,
               }}
             >
-              {blogTitle}
+              {post.frontmatter.title}
             </h1>
             <p
               style={{
-                ...scale(-1 / 5),
-                display: `block`,
-                marginBottom: rhythm(1),
+                display: `flex`,
+                flexWrap: `wrap`,
+                justifyContent: `space-between`,
+                listStyle: `none`,
+                padding: 0,
               }}
             >
               {post.frontmatter.date}
@@ -70,9 +75,7 @@ const BlogPostTemplate = ({ data, pageContext }) => {
               marginBottom: rhythm(1),
             }}
           />
-          <footer>
-            <Bio />
-          </footer>
+          <footer />
           <DiscussionEmbed {...disqusConfig} />
         </article>
 
@@ -125,6 +128,13 @@ export const pageQuery = graphql`
         title
         date(formatString: "MMMM DD, YYYY")
         description
+        thumbnail {
+          childImageSharp {
+            sizes(maxWidth: 600) {
+              ...GatsbyImageSharpSizes
+            }
+          }
+        }
       }
     }
   }

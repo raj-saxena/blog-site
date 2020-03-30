@@ -15,9 +15,19 @@ interface Props {
   lang?: string
   meta?: []
   title: string
+  thumbnail?: any
 }
 
-const SEO = ({ description, lang, meta, title }: Props) => {
+const SEO = ({ description, lang, meta, title, thumbnail }: Props) => {
+  const imageSrc = thumbnail && thumbnail.childImageSharp.sizes.src
+
+  let origin = ""
+  if (typeof window !== "undefined") {
+    origin = window.location.origin
+  }
+
+  const image = origin + imageSrc
+
   const { site } = useStaticQuery(
     graphql`
       query {
@@ -25,7 +35,9 @@ const SEO = ({ description, lang, meta, title }: Props) => {
           siteMetadata {
             title
             description
-            author
+            social {
+              twitter
+            }
           }
         }
       }
@@ -64,7 +76,7 @@ const SEO = ({ description, lang, meta, title }: Props) => {
         },
         {
           name: `twitter:creator`,
-          content: site.siteMetadata.author,
+          content: site.siteMetadata.social.twitter,
         },
         {
           name: `twitter:title`,
@@ -73,6 +85,10 @@ const SEO = ({ description, lang, meta, title }: Props) => {
         {
           name: `twitter:description`,
           content: metaDescription,
+        },
+        {
+          name: `twitter:image`,
+          content: image,
         },
       ].concat(meta || [])}
     />
