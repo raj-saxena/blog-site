@@ -113,9 +113,17 @@ module.exports = {
         theme_color: `#663399`,
         display: `minimal-ui`,
         icon: `content/assets/favicon.png`,
+        // cache_busting_mode: 'none'
       },
     },
-    `gatsby-plugin-offline`,
+  //   {
+  //     resolve: 'gatsby-plugin-offline',
+  //     options: {
+  //        workboxConfig: {
+  //           globPatterns: ['**/*']
+  //        }
+  //     }
+  //  },
     `gatsby-plugin-react-helmet`,
     `gatsby-plugin-typescript`,
     {

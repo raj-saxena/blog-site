@@ -54,7 +54,7 @@ const Layout = ({ location, title, children }: Props) => {
       >
         {header}
       </header>
-      <main style={{ width: "50%", margin: "0 auto", paddingBottom: "2.5rem" }}>
+      <main style={{ width: "45%", margin: "0 auto", paddingBottom: "2.5rem" }}>
         {children}
       </main>
       <footer
