@@ -46,11 +46,6 @@ const BlogPostTemplate = ({ data, pageContext }: Props) => {
       <SEO
         title={blogTitle}
         description={post.frontmatter.description || post.excerpt}
-      />
-
-      <SEO
-        title={post.frontmatter.title}
-        description={post.frontmatter.description || post.excerpt}
         image={image}
         pathname={location.pathname}
       />
