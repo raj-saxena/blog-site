@@ -32,7 +32,7 @@ function SEO({
   const image =
     metaImage && metaImage.src
       ? `${site.siteMetadata.siteUrl}${metaImage.src}`
-      : null
+      : 'content/assets/favicon.png'
   const canonical = pathname ? `${site.siteMetadata.siteUrl}${pathname}` : null
 
   return (
