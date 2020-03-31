@@ -4,6 +4,7 @@ date: "2020-03-29T12:00:00.000Z"
 description: "Building a data-extractor between Google CloudSQL and BigQuery using Dataflow."
 thumbnail: './data-extractor.png'
 cover: './data-extractor.png'
+featured: './data-extractor.png'
 ---
 
 ### The Setup and Problem
