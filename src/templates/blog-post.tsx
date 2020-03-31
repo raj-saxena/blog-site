@@ -30,8 +30,6 @@ const BlogPostTemplate = ({ data, pageContext }: Props) => {
     ? post.frontmatter.image.childImageSharp.resize
     : null
 
-  const thumbnail = post.frontmatter.thumbnail
-
   const location: any = typeof window !== `undefined` && window.location
 
   const disqusConfig = {
@@ -48,7 +46,6 @@ const BlogPostTemplate = ({ data, pageContext }: Props) => {
       <SEO
         title={blogTitle}
         description={post.frontmatter.description || post.excerpt}
-        // thumbnail={thumbnail}
       />
 
       <SEO
@@ -136,13 +133,6 @@ export const pageQuery = graphql`
         title
         date(formatString: "MMMM DD, YYYY")
         description
-        thumbnail {
-          childImageSharp {
-            sizes(maxWidth: 600) {
-              ...GatsbyImageSharpSizes
-            }
-          }
-        }
         image: featured {
           childImageSharp {
             resize(width: 1200) {

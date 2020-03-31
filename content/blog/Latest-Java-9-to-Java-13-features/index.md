@@ -2,6 +2,7 @@
 title: Java 9 to Java 13 - Top features
 date: "2019-10-25T12:00:00.000Z"
 description: "Top features released after Java 8 between Java 9 to Java 13"
+featured: './openjdk.jpg'
 ---
 
 
