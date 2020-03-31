@@ -29,10 +29,11 @@ function SEO({
   )
 
   const metaDescription = description || site.siteMetadata.description
+  const rootImg = 'https://avatars2.githubusercontent.com/u/6253803?s=400&u=a33586773ed56f06750e0324a2e4b16be8321eb2&v=4'
   const image =
     metaImage && metaImage.src
       ? `${site.siteMetadata.siteUrl}${metaImage.src}`
-      : 'https://avatars2.githubusercontent.com/u/6253803?s=400&u=a33586773ed56f06750e0324a2e4b16be8321eb2&v=4'
+      : `${site.siteMetadata.siteUrl}${rootImg}`
   const canonical = pathname ? `${site.siteMetadata.siteUrl}${pathname}` : null
 
   return (
