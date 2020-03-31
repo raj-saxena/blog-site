@@ -117,7 +117,7 @@ function SEO({
                 },
                 {	
                   name: `twitter:image`,	
-                  content: rootImgSrc,	
+                  content: image ? image : rootImgSrc,	
                 },
               ]
         )
