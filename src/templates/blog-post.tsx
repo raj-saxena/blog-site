@@ -22,10 +22,13 @@ interface Props {
 
 const BlogPostTemplate = ({ data, pageContext }: Props) => {
   const post = data.markdownRemark
-  const {title, siteUrl} = data.site.siteMetadata
+  const { title, siteUrl } = data.site.siteMetadata
   const { previous, next, slug } = pageContext
   const blogTitle = post.frontmatter.title
-  const thumbnail = post.frontmatter.thumbnail
+
+  const image = post.frontmatter.image
+    ? post.frontmatter.image.childImageSharp.resize
+    : null
 
   const location: any = typeof window !== `undefined` && window.location
 
@@ -43,7 +46,13 @@ const BlogPostTemplate = ({ data, pageContext }: Props) => {
       <SEO
         title={blogTitle}
         description={post.frontmatter.description || post.excerpt}
-        thumbnail={thumbnail}
+      />
+
+      <SEO
+        title={post.frontmatter.title}
+        description={post.frontmatter.description || post.excerpt}
+        image={image}
+        pathname={location.pathname}
       />
       <article>
         <header>
@@ -124,10 +133,12 @@ export const pageQuery = graphql`
         title
         date(formatString: "MMMM DD, YYYY")
         description
-        thumbnail {
+        image: featured {
           childImageSharp {
-            sizes(maxWidth: 600) {
-              ...GatsbyImageSharpSizes
+            resize(width: 1200) {
+              src
+              height
+              width
             }
           }
         }
