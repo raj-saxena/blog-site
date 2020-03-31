@@ -40,7 +40,7 @@ function SEO({
   const image =
     metaImage && metaImage.src
       ? `${site.siteMetadata.siteUrl}${metaImage.src}`
-      : `${site.siteMetadata.siteUrl}${rootImg}`
+      : null
   const canonical = pathname ? `${site.siteMetadata.siteUrl}${pathname}` : null
 
   return (
