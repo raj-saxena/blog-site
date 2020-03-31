@@ -15,14 +15,15 @@ interface Props {
       }
     }
   }
+  location: any
 }
 
-const BlogIndex = ({ data }: Props) => {
+const BlogIndex = ({ data, location }: Props) => {
   const siteTitle = data.site.siteMetadata.title
   const posts = data.allMarkdownRemark.edges
 
   return (
-    typeof window !== `undefined` && <Layout location={window.location} title={siteTitle}>
+    <Layout location={location} title={siteTitle}>
       <SEO title="Suspend Fun" />
       <Bio />
       {posts.map(({ node }: any) => {

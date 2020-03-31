@@ -2,7 +2,7 @@ import React from "react"
 import { Link } from "gatsby"
 
 import { rhythm, scale } from "../utils/typography"
-import "./layout.css"
+import './layout.css'
 
 interface Props {
   location: Location
@@ -11,31 +11,55 @@ interface Props {
 }
 
 const Layout = ({ location, title, children }: Props) => {
+  // @ts-ignore
   const rootPath = `${__PATH_PREFIX__}/`
   let header
 
-  header = (
-    <h1
-      style={{
-        fontSize: "38px !important",
-        fontWeight: 600,
-        textAlign: "center",
-        margin: 0,
-      }}
-    >
-      <Link
+  if (location.pathname === rootPath) {
+    header = (
+      <h1
         style={{
-          boxShadow: `none`,
-          textDecoration: `none`,
-          color: `inherit`,
+          // ...scale(1.5),
+          fontSize: "38px !important",
+          fontWeight: 600,
+          textAlign: "center",
+          margin: 0,
         }}
-        to={`/`}
       >
-        {title}
-      </Link>
-    </h1>
-  )
-
+        <Link
+          style={{
+            boxShadow: `none`,
+            color: `inherit`,
+          }}
+          to={`/`}
+        >
+          {title}
+        </Link>
+      </h1>
+    )
+  } else {
+    header = (
+      <h1
+        style={{
+          // ...scale(1.5),
+          fontSize: "38px !important",
+          fontWeight: 600,
+          textAlign: "center",
+          margin: 0,
+        }}
+      >
+        <Link
+          style={{
+            boxShadow: `none`,
+            color: `inherit`,
+          }}
+          to={`/`}
+        >
+          {title}
+        </Link>
+      </h1>
+    )
+  }
   return (
     <div
       style={{
@@ -43,12 +67,13 @@ const Layout = ({ location, title, children }: Props) => {
         margin: "0 auto",
         position: "relative",
         minHeight: "100vh",
+        // padding: `4.5rem`,
       }}
     >
       <header
         style={{
-          padding: "2rem",
-          background: "#24384f",
+          padding: '2rem',
+          background: '#24384f',
           color: "palegoldenrod",
         }}
       >
@@ -60,13 +85,12 @@ const Layout = ({ location, title, children }: Props) => {
       <footer
         style={{
           textAlign: "center",
-          background: "#333436",
+          background: '#333436',
           color: "#fff",
-          padding: "20px",
           width: "100%",
           position: "absolute",
           bottom: 0,
-          height: "3.5rem",
+          padding: "10px"
         }}
       >
         © {new Date().getFullYear()}, Built with
