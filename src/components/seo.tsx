@@ -5,7 +5,6 @@ import { useStaticQuery, graphql } from "gatsby"
 interface Props {
   description?: string
   lang?: string
-  meta?: any
   title: string
   image: {
     src: string
@@ -18,7 +17,6 @@ interface Props {
 function SEO({
   description,
   lang,
-  meta,
   image: metaImage,
   title,
   pathname,
@@ -103,6 +101,7 @@ function SEO({
     },
   ]
 
+  console.log('[...defaultMetaTags, ...imageMetaTags, meta]', [...defaultMetaTags, ...imageMetaTags])
   return (
     <Helmet
       htmlAttributes={{
@@ -120,14 +119,13 @@ function SEO({
             ]
           : []
       }
-      meta={[...defaultMetaTags, ...imageMetaTags, ...meta]}
+      meta={[...defaultMetaTags, ...imageMetaTags]}
     />
   )
 }
 
 SEO.defaultProps = {
   lang: `en`,
-  meta: [],
   description: ``,
 }
 
