@@ -42,14 +42,6 @@ function SEO({
 
   const metaDescription = description || site.siteMetadata.description
 
-  // const rootImg =
-  //   "https://avatars2.githubusercontent.com/u/6253803?s=400&u=a33586773ed56f06750e0324a2e4b16be8321eb2&v=4"
-  // let origin = ""
-  // if (typeof window !== "undefined") {
-  //   origin = window.location.origin
-  // }
-  // const rootImgSrc = origin + rootImg
-
   const image =
     metaImage && metaImage.src
       ? `${site.siteMetadata.siteUrl}${metaImage.src}`
