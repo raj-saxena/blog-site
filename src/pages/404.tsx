@@ -12,18 +12,19 @@ interface Props {
       }
     }
   }
-  location: any
 }
 
-const NotFoundPage = ({ data, location }: Props) => {
+const NotFoundPage = ({ data }: Props) => {
   const siteTitle = data.site.siteMetadata.title
 
   return (
-    <Layout location={location} title={siteTitle}>
-      <SEO title="404: Not Found" />
-      <h1>Not Found</h1>
-      <p>You just hit a route that doesn&#39;t exist... the sadness.</p>
-    </Layout>
+    typeof window !== `undefined` && (
+      <Layout location={window.location} title={siteTitle}>
+        <SEO title="404: Not Found" />
+        <h1>Not Found</h1>
+        <p>You just hit a route that doesn&#39;t exist... the sadness.</p>
+      </Layout>
+    )
   )
 }
 
