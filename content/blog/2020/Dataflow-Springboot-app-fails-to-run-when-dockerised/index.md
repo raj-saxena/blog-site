@@ -133,8 +133,8 @@ I don't know why a fat-jar doesn't work here. This is the first time I faced thi
 Sharing this so that someone else working on something similar can save time and frustration.
 
 ### Conclusion
-* Computers and modern software are complex and hard. In the entire feat of integrating a mix of complex technologies like Vault, Kubernetes, BigQuery, Dataflow and the service logic itself, this little thing caused me the most pain.
+* Computers and modern software are complex and hard. In the entire feat of integrating a mix of complex technologies like Vault, Kubernetes, BigQuery, Dataflow and the service logic itself, this little thing caused me the most pain. Parts that you think you understand well, can fail in unexpected ways when working together.
 * In the cloud-native environment with multiple moving parts, logs can sometimes be misleading. When that happens, it is important to inspect even the smallest things carefully. For most of the time, I suspected something around permissions and did a thorough inspection of roles and permissions. Taking a break and looking in a different direction helps.
 * I am sure there's a perfectly reasonable explanation of this. Maybe, it is even documented. But, I couldn't find it easily nor was the error obvious. Sharing such experiences is a good way of learning from each other without making the same mistakes. I have learnt and accepted that I don't know everything and it's fine.
 
-If you have made so far, please let me know what you think.
+_If you have made so far, please let me know what you think._
