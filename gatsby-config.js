@@ -9,7 +9,7 @@ module.exports = {
             name: `Raj Saxena`,
             summary: `who lives and works in Berlin building useful things.`,
         },
-        description: `Solving problem in the cloud`,
+        description: `Solving roblems in the cloud.`,
         siteUrl: `https://suspendfun.com`,
         social: {
             twitter: `therajsaxena`,
