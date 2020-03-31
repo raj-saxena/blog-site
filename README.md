@@ -1,3 +1,3 @@
-## Personal blog by Raj Saxena
+## Technical Blog by Raj Saxena
 
-Powered by Gatsby markdown starter package and deployed on Netlify
+Powered by Gatsby and hosted on Netlify

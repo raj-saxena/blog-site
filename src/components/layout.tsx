@@ -11,12 +11,12 @@ interface Props {
 }
 
 const Layout = ({ location, title, children }: Props) => {
-  const rootPath = `${__PATH_PREFIX__}/`
   let header
 
   header = (
     <h1
       style={{
+        // ...scale(1.5),
         fontSize: "38px !important",
         fontWeight: 600,
         textAlign: "center",
@@ -26,7 +26,6 @@ const Layout = ({ location, title, children }: Props) => {
       <Link
         style={{
           boxShadow: `none`,
-          textDecoration: `none`,
           color: `inherit`,
         }}
         to={`/`}
@@ -62,11 +61,10 @@ const Layout = ({ location, title, children }: Props) => {
           textAlign: "center",
           background: "#333436",
           color: "#fff",
-          padding: "20px",
           width: "100%",
           position: "absolute",
           bottom: 0,
-          height: "3.5rem",
+          padding: "10px",
         }}
       >
         © {new Date().getFullYear()}, Built with
