@@ -6,15 +6,23 @@ interface Props {
   description?: string
   lang?: string
   title: string
-  image: {
+  image?: {
     src: string
-    height?: number
-    width?: number
+    height: number
+    width: number
   }
+  homePageImage?: string
   pathname?: string
 }
 
-function SEO({ description, lang, image: metaImage, title, pathname }: Props) {
+function SEO({
+  description,
+  lang,
+  image: metaImage,
+  title,
+  pathname,
+  homePageImage,
+}: Props) {
   const { site } = useStaticQuery(
     graphql`
       query {
@@ -40,6 +48,12 @@ function SEO({ description, lang, image: metaImage, title, pathname }: Props) {
       : null
 
   const canonical = pathname ? `${site.siteMetadata.siteUrl}${pathname}` : null
+
+  let origin = ""
+  if (typeof window !== "undefined") {
+    origin = window.location.origin
+  }
+  const rootImgSrc = origin + homePageImage
 
   const defaultMetaTags = [
     {
@@ -97,6 +111,10 @@ function SEO({ description, lang, image: metaImage, title, pathname }: Props) {
       {
         name: "twitter:card",
         content: "summary",
+      },
+      {
+        name: `twitter:image`,
+        content: image ? image : rootImgSrc,
       },
     ]
   }
