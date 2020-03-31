@@ -14,13 +14,7 @@ interface Props {
   pathname?: string
 }
 
-function SEO({
-  description,
-  lang,
-  image: metaImage,
-  title,
-  pathname,
-}: Props) {
+function SEO({ description, lang, image: metaImage, title, pathname }: Props) {
   const { site } = useStaticQuery(
     graphql`
       query {
@@ -76,32 +70,37 @@ function SEO({
       name: `twitter:description`,
       content: metaDescription,
     },
-    {
-      name: "twitter:card",
-      content: "summary",
-    },
   ]
 
-  const imageMetaTags = metaImage && [
-    {
-      property: "og:image",
-      content: image,
-    },
-    {
-      property: "og:image:width",
-      content: metaImage.width,
-    },
-    {
-      property: "og:image:height",
-      content: metaImage.height,
-    },
-    {
-      name: "twitter:card",
-      content: "summary_large_image",
-    },
-  ]
+  function getImageMetaTags() {
+    if (metaImage)
+      return [
+        {
+          property: "og:image",
+          content: image,
+        },
+        {
+          property: "og:image:width",
+          content: metaImage.width,
+        },
+        {
+          property: "og:image:height",
+          content: metaImage.height,
+        },
+        {
+          name: "twitter:card",
+          content: "summary_large_image",
+        },
+      ]
 
-  console.log('[...defaultMetaTags, ...imageMetaTags, meta]', [...defaultMetaTags, ...imageMetaTags])
+    return [
+      {
+        name: "twitter:card",
+        content: "summary",
+      },
+    ]
+  }
+
   return (
     <Helmet
       htmlAttributes={{
@@ -119,7 +118,7 @@ function SEO({
             ]
           : []
       }
-      meta={[...defaultMetaTags, ...imageMetaTags]}
+      meta={[...defaultMetaTags, ...getImageMetaTags()]}
     />
   )
 }
