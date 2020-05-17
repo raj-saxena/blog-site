@@ -1,8 +1,9 @@
 import React from "react"
 import { Link } from "gatsby"
-
+import Bio from "./bio"
 import { rhythm, scale } from "../utils/typography"
 import "./layout.css"
+import Navigation from "./navigation"
 
 interface Props {
   location: Location
@@ -11,66 +12,98 @@ interface Props {
 }
 
 const Layout = ({ location, title, children }: Props) => {
+  const isBrowser = typeof window !== "undefined"
+  // eslint-disable-next-line no-use-before-define
+  const [darkTheme, setDarkTheme] = React.useState(getDefaultTheme())
+
+  React.useEffect(() => {
+    // eslint-disable-next-line no-unused-expressions
+    if (isBrowser) {
+      window.localStorage.setItem("dark", JSON.stringify(darkTheme))
+    }
+  }, [darkTheme, isBrowser])
+
+  function getDefaultTheme() {
+    if (isBrowser) {
+      // @ts-ignore
+      return JSON.parse(window.localStorage.getItem("dark"))
+    }
+    return false
+  }
+
   let header
 
   header = (
-    <h1
+    <div
       style={{
-        // ...scale(1.5),
-        fontSize: "38px !important",
-        fontWeight: 600,
-        textAlign: "center",
-        margin: 0,
+        display: "flex",
+        justifyContent: "space-between",
+        listStyle: "none",
       }}
     >
       <Link
         style={{
           boxShadow: `none`,
           color: `inherit`,
+          fontSize: "22px",
+          margin: "10px",
+          borderBottom: "1px solid goldenrod",
         }}
         to={`/`}
       >
-        {title}
+        <span style={{ width: "80px", margin: "10px 60px" }}>Suspend Fun</span>
       </Link>
-    </h1>
+    </div>
   )
 
+  const toggleDarkMode = () => {
+    setDarkTheme((prevTheme: any) => !prevTheme)
+  }
+
   return (
-    <div
-      style={{
-        width: "100%",
-        margin: "0 auto",
-        position: "relative",
-        minHeight: "100vh",
-      }}
-    >
-      <header
+    <div className={darkTheme ? "dark-theme" : "light-theme"}>
+      <div
         style={{
-          padding: "2rem",
-          background: "#24384f",
-          color: "palegoldenrod",
-        }}
-      >
-        {header}
-      </header>
-      <main style={{ width: "45%", margin: "0 auto", paddingBottom: "2.5rem" }}>
-        {children}
-      </main>
-      <footer
-        style={{
-          textAlign: "center",
-          background: "#333436",
-          color: "#fff",
           width: "100%",
-          position: "absolute",
-          bottom: 0,
-          padding: "10px",
+          margin: "0 auto",
+          position: "relative",
+          minHeight: "100vh",
         }}
       >
-        © {new Date().getFullYear()}, Built with
-        {` `}
-        <a href="https://www.gatsbyjs.org">Gatsby</a>
-      </footer>
+        <aside
+          className="sidenav"
+          style={{
+            background: "#1f1b24",
+            color: "#f8f8f8",
+          }}
+        >
+          <Link
+            style={{
+              boxShadow: `none`,
+              color: `inherit`,
+              fontSize: "22px",
+              marginTop: "10px",
+              borderBottom: "1px solid goldenrod",
+            }}
+            to={`/`}
+          >
+            <span style={{ margin: "10px 60px" }}>Suspend Fun</span>
+          </Link>
+          <Bio />
+        </aside>
+        <Navigation darkTheme={darkTheme} clicked={toggleDarkMode} />
+        <main
+          style={{
+            paddingLeft: "40px",
+            width: "75%",
+            float: "right",
+            height: "100vh",
+            paddingBottom: "2.5rem",
+          }}
+        >
+          {children}
+        </main>
+      </div>
     </div>
   )
 }
