@@ -8,8 +8,7 @@
 import React from "react"
 import { useStaticQuery, graphql } from "gatsby"
 import Image from "gatsby-image"
-import logo from "../images/twitter.png"
-
+import { Twitter, Github, LinkedIn } from "../images"
 import { rhythm } from "../utils/typography"
 
 const Bio = () => {
@@ -86,11 +85,7 @@ const Bio = () => {
               borderRadius: "50px",
             }}
           >
-            <img
-              width="30"
-              style={{ margin: "10px" }}
-              src="https://webstockreview.net/images/twitter-icon-png-1.png"
-            />
+            <img width="30" style={{ margin: "10px" }} src={Twitter} />
           </a>
         </li>
         <li style={{ marginRight: "5px" }}>
@@ -104,11 +99,7 @@ const Bio = () => {
               borderRadius: "50px",
             }}
           >
-            <img
-              width="30"
-              style={{ margin: "10px" }}
-              src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Octicons-mark-github.svg/1024px-Octicons-mark-github.svg.png"
-            />
+            <img width="30" style={{ margin: "10px" }} src={Github} />
           </a>
         </li>
         <li>
@@ -122,11 +113,7 @@ const Bio = () => {
               borderRadius: "50px",
             }}
           >
-            <img
-              width="30"
-              style={{ margin: "10px" }}
-              src="https://lh3.googleusercontent.com/proxy/ri1-h0b2aNqr-33PjoVP_HUCnB7UnlUfCiBSaPVh5j8StdoT5cA8u4rgqDLHd3Pj4RxExLtdBJjp0gaH2i1Gtt4LKOTvS__P7P-j7zDApxQpDzX__4KI4aBU215jLyDRAr73"
-            />
+            <img width="30" style={{ margin: "10px" }} src={LinkedIn} />
           </a>
         </li>
       </ul>
