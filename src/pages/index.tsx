@@ -31,7 +31,6 @@ const BlogIndex = ({ data, location }: Props) => {
       <div className={styles.bio}>
         <Bio />
       </div>
-
       <h3
         className={styles.headingMain}
         style={{
