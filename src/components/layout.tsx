@@ -94,7 +94,6 @@ const Layout = ({ location, title, children }: Props) => {
         <Navigation darkTheme={darkTheme} clicked={toggleDarkMode} />
         <main
           style={{
-            paddingLeft: "40px",
             width: "75%",
             float: "right",
             height: "100vh",
