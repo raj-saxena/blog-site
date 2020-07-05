@@ -1,16 +1,17 @@
 ---
 title: SpringBoot fat-jar fails, Shadow 🕵🏽‍♂️ to the rescue.
 date: "2020-07-05T12:00:00.000Z"
-description: "Using Shadow gradle plugin to create a fat jar as an alternative to SpringBoot."
-featured: "./shadow.png"
+description: "Using Shadow gradle plugin to overcome limitations of fat jar."
+featured: "./shadow-java-spring-docker.png"
 ---
 
-(I was originally planning to publish this in April but then the Corona lockdown happened and the world just went sideways. Nonetheless, sharing my learnings now).
+_(I was originally planning to publish this in April but then the Corona lockdown happened and the world just went sideways. Nonetheless, sharing my learnings now)._
 
 ### Problem
-I faced a peculiar problem that I hadn't seen before which I described in my last post - [Dataflow + SpringBoot app fails to run when Dockerized](https://suspendfun.com/2020/Dataflow-Springboot-app-fails-to-run-when-dockerised/).
+I faced a peculiar problem where a fat-jar wouldn't run on remote runners. I described the details in my last post - [Dataflow + SpringBoot app fails to run when Dockerized](https://suspendfun.com/2020/Dataflow-Springboot-app-fails-to-run-when-dockerised/).
 
-To unblock myself and deliver on time, I hacked together a solution. In the build pipeline, instead of compiling the source to create a jar and containerize that, I packaged the source repository and used the gradle wrapper to run that code when the container starts. It worked but it had a few problems:
+To unblock myself and deliver on time, I hacked together a solution that during the build step instead of compiling the source to create a jar and containerize the jar, I packaged the source repository and used the gradle wrapper to run that code when the container starts. 
+It worked but it had a few problems:
 1. ❗️The images were almost 1 GB. Our typical service is around 350 MB out of which 195 MB is the Distroless Java 11 itself.
 1. ❗️The startup was slow as gradle was starting first and then booting the app.
 1. ❗️The image wasn't self-sufficient and I had to inject Artifactory credentials at runtime to start the container so that gradle can authenticate and validate dependencies.
@@ -68,5 +69,7 @@ This solved the 3 problems:
 * ✅ The image is 340 MB and that is close to expected.
 * ✅ Startup times are similar to expected.
 * ✅ No more injected Artifactory credentials. I rotated the credentials that were used for the hack.
+
+This was an interesting problem because the app worked every time from the IDE or when run locally via gradle but failed when deployed.
 
 Please let me know if you think there is something that can be improved. 
