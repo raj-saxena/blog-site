@@ -10,6 +10,8 @@ _(I was originally planning to publish this in April but then the Corona lockdow
 ### Problem
 I faced a peculiar problem where a fat-jar wouldn't run on remote runners. I described the details in my last post - [Dataflow + SpringBoot app fails to run when Dockerized](https://suspendfun.com/2020/Dataflow-Springboot-app-fails-to-run-when-dockerised/).
 
+![](./shadow-java-spring-docker.png)
+
 To unblock myself and deliver on time, I hacked together a solution that during the build step instead of compiling the source to create a jar and containerize the jar, I packaged the source repository and used the gradle wrapper to run that code when the container starts. 
 It worked but it had a few problems:
 1. ❗️The images were almost 1 GB. Our typical service is around 350 MB out of which 195 MB is the Distroless Java 11 itself.

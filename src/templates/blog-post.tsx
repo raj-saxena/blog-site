@@ -71,7 +71,7 @@ const BlogPostTemplate = ({ data, pageContext }: Props) => {
           </p>
         </header>
         <section
-          style={{ marginRight: "2rem", textAlign: "justify" }}
+          style={{ marginRight: "10rem", textAlign: "justify" }}
           dangerouslySetInnerHTML={{ __html: post.html }}
         />
         <hr
