@@ -80,7 +80,9 @@ const BlogPostTemplate = ({ data, pageContext }: Props) => {
           }}
         />
         <footer />
-        <DiscussionEmbed {...disqusConfig} />
+        <div style={{ paddingRight: "20px" }}>
+          <DiscussionEmbed {...disqusConfig} />
+        </div>
       </article>
 
       <nav>
