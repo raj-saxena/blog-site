@@ -1,6 +1,6 @@
 ---
 title: SpringBoot fat-jar fails, Shadow 🕵🏽‍♂️ to the rescue.
-date: "2020-04-14T12:00:00.000Z"
+date: "2020-07-05T12:00:00.000Z"
 description: "Using Shadow gradle plugin to create a fat jar as an alternative to SpringBoot."
 featured: "./shadow.png"
 ---

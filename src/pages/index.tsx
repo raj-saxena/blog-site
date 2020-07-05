@@ -1,10 +1,10 @@
 import React from "react"
 import { Link, graphql } from "gatsby"
-
-import Bio from "../components/bio"
 import Layout from "../components/layout"
 import SEO from "../components/seo"
 import { rhythm } from "../utils/typography"
+import styles from "./articles.module.css"
+import Bio from "../components/bio"
 
 interface Props {
   data: {
@@ -28,31 +28,54 @@ const BlogIndex = ({ data, location }: Props) => {
   return (
     <Layout location={location} title={siteTitle}>
       <SEO title="Suspend Fun" homePageImage={ROOT_URL_IMAGE} />
-      <Bio />
+      <div className={styles.bio}>
+        <Bio />
+      </div>
+      <h3
+        className={styles.headingMain}
+        style={{
+          color: "darkslategrey",
+          fontWeight: 400,
+          fontSize: "18px",
+        }}
+      >
+        Tech Learnings for Future Self
+      </h3>
+
       {posts.map(({ node }: any) => {
         const title = node.frontmatter.title || node.fields.slug
         return (
-          <article key={node.fields.slug}>
-            <header>
-              <h3
-                style={{
-                  marginBottom: rhythm(1 / 4),
-                }}
+          <div className={styles.all}>
+            <div className={styles.cards}>
+              <article
+                className={`${styles.card} ${styles.shadow1}`}
+                key={node.fields.slug}
               >
-                <Link style={{ boxShadow: `none` }} to={node.fields.slug}>
-                  {title}
-                </Link>
-              </h3>
-              <small>{node.frontmatter.date}</small>
-            </header>
-            <section>
-              <p
-                dangerouslySetInnerHTML={{
-                  __html: node.frontmatter.description || node.excerpt,
-                }}
-              />
-            </section>
-          </article>
+                <header>
+                  <h3
+                    style={{
+                      marginBottom: rhythm(1 / 4),
+                    }}
+                  >
+                    <Link
+                      style={{ boxShadow: `none`, color: "teal" }}
+                      to={node.fields.slug}
+                    >
+                      {title}
+                    </Link>
+                  </h3>
+                  <small>{node.frontmatter.date}</small>
+                </header>
+                <section>
+                  <p
+                    dangerouslySetInnerHTML={{
+                      __html: node.frontmatter.description || node.excerpt,
+                    }}
+                  />
+                </section>
+              </article>
+            </div>
+          </div>
         )
       })}
     </Layout>

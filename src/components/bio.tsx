@@ -8,7 +8,7 @@
 import React from "react"
 import { useStaticQuery, graphql } from "gatsby"
 import Image from "gatsby-image"
-
+import { Twitter, Github, LinkedIn } from "../images"
 import { rhythm } from "../utils/typography"
 
 const Bio = () => {
@@ -16,7 +16,7 @@ const Bio = () => {
     query BioQuery {
       avatar: file(absolutePath: { regex: "/profile-pic.jpg/" }) {
         childImageSharp {
-          fixed(width: 50, height: 50) {
+          fixed(width: 200, height: 200) {
             ...GatsbyImageSharpFixed
           }
         }
@@ -38,31 +38,85 @@ const Bio = () => {
   const { author, social } = data.site.siteMetadata
   return (
     <div
+      className="bio"
       style={{
-        display: `flex`,
-        marginTop: '20px'
+        margin: "0 auto",
+        width: "80%",
+        padding: "70px 0",
       }}
     >
-      <Image
-        fixed={data.avatar.childImageSharp.fixed}
-        alt={author.name}
+      <div className="mobileBio">
+        <Image
+          className="avatar"
+          fixed={data.avatar.childImageSharp.fixed}
+          alt={author.name}
+          style={{
+            marginRight: rhythm(1 / 2),
+            marginBottom: 0,
+            minWidth: 50,
+            borderRadius: `100%`,
+          }}
+          imgStyle={{
+            borderRadius: `50%`,
+          }}
+        />
+        <p className="author-description">
+          Hi, I am <strong>{author.name}</strong> and {author.summary}
+        </p>
+      </div>
+      <ul
+        className="socials"
         style={{
-          marginRight: rhythm(1 / 2),
-          marginBottom: 0,
-          minWidth: 50,
-          borderRadius: `100%`,
+          listStyle: "none",
+          display: "flex",
+          marginTop: "20px",
+          alignItems: "center",
+          justifyContent: "center",
         }}
-        imgStyle={{
-          borderRadius: `50%`,
-        }}
-      />
-      <p>
-        Written by <strong>{author.name}</strong> {author.summary}
-        {` `}
-        <a style={{display: 'block'}} href={`https://twitter.com/${social.twitter}`}>
-          You can follow him on Twitter
-        </a>
-      </p>
+      >
+        <li style={{ marginRight: "5px" }}>
+          <a
+            href={`https://twitter.com/${social.twitter}`}
+            className="kc_fab_main_btn"
+            style={{
+              display: "block",
+              width: "50px",
+              height: "50px",
+              borderRadius: "50px",
+            }}
+          >
+            <img width="30" style={{ margin: "10px" }} src={Twitter} />
+          </a>
+        </li>
+        <li style={{ marginRight: "5px" }}>
+          <a
+            href={`https://github.com/raj-saxena`}
+            className="kc_fab_main_btn"
+            style={{
+              display: "block",
+              width: "50px",
+              height: "50px",
+              borderRadius: "50px",
+            }}
+          >
+            <img width="30" style={{ margin: "10px" }} src={Github} />
+          </a>
+        </li>
+        <li>
+          <a
+            href={`https://www.linkedin.com/in/therajsaxena/`}
+            className="kc_fab_main_btn"
+            style={{
+              display: "block",
+              width: "50px",
+              height: "50px",
+              borderRadius: "50px",
+            }}
+          >
+            <img width="30" style={{ margin: "10px" }} src={LinkedIn} />
+          </a>
+        </li>
+      </ul>
     </div>
   )
 }
