@@ -3,8 +3,8 @@ import { Link, graphql } from "gatsby"
 import Layout from "../components/layout"
 import SEO from "../components/seo"
 import { rhythm } from "../utils/typography"
-import styles from "./articles.module.css"
 import Bio from "../components/bio"
+import styles from "./articles.module.css"
 
 interface Props {
   data: {
@@ -48,7 +48,7 @@ const BlogIndex = ({ data, location }: Props) => {
           <div className={styles.all}>
             <div className={styles.cards}>
               <article
-                className={`${styles.card} ${styles.shadow1}`}
+                className={`${styles.card} ${styles.shadow}`}
                 key={node.fields.slug}
               >
                 <header>

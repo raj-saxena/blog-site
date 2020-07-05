@@ -6,6 +6,7 @@ import Bio from "../components/bio"
 import Layout from "../components/layout"
 import SEO from "../components/seo"
 import { rhythm, scale } from "../utils/typography"
+import styles from "../pages/articles.module.css"
 
 interface Props {
   data: {
@@ -55,7 +56,7 @@ const BlogPostTemplate = ({ data, pageContext }: Props) => {
             style={{
               marginTop: rhythm(1),
               marginBottom: 0,
-              fontWeight: 300,
+              fontWeight: 800,
             }}
           >
             {blogTitle}
@@ -71,7 +72,8 @@ const BlogPostTemplate = ({ data, pageContext }: Props) => {
           </p>
         </header>
         <section
-          style={{ marginRight: "10rem", textAlign: "justify" }}
+          className={styles.articleSection}
+          style={{ textAlign: "justify" }}
           dangerouslySetInnerHTML={{ __html: post.html }}
         />
         <hr
