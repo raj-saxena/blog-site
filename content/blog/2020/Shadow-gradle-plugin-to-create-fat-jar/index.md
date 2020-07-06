@@ -8,7 +8,7 @@ featured: "./shadow-java-spring-docker.png"
 _(I was originally planning to publish this in April but then the Corona lockdown happened and the world just went sideways. Nonetheless, sharing my learnings now)._
 
 ### Problem
-I faced a peculiar problem where a fat-jar wouldn't run on remote runners. I described the details in my last post - [Dataflow + SpringBoot app fails to run when Dockerized](https://suspendfun.com/2020/Dataflow-Springboot-app-fails-to-run-when-dockerised/).
+I faced a peculiar problem where a fat-jar wouldn't run on remote runners. I described the details in my previous post - [Dataflow + SpringBoot app fails to run when Dockerized](https://suspendfun.com/2020/Dataflow-Springboot-app-fails-to-run-when-dockerised/).
 
 ![](./shadow-java-spring-docker.png)
 
@@ -72,6 +72,6 @@ This solved the 3 problems:
 * ✅ Startup times are similar to expected.
 * ✅ No more injected Artifactory credentials. I rotated the credentials that were used for the hack.
 
-This was an interesting problem because the app worked every time from the IDE or when run locally via gradle but failed when deployed.
+This was an interesting problem because the app worked every time from the IDE or when run locally via gradle but failed when it was containerized and deployed.
 
 Please let me know if you think there is something that can be improved. 
