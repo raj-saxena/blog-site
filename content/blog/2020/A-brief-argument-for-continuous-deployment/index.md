@@ -2,7 +2,7 @@
 title: A brief argument for Continuous Deployment
 date: "2020-08-10T12:00:00.000Z"
 description: "Moving from Continuous Delivery to Continuous Deployment."
-# featured: './data-extractor.png'
+featured: './deployments_vs_locked.png'
 ---
 
 I work at a young startup. The members of the current engineering team are experienced and smart and come from different backgrounds. We understood the importance of continuously integrating. I want to share our journey of how we moved from Continuous Delivery to Continous Deployment.
