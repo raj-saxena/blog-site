@@ -5,7 +5,7 @@ description: "Moving from Continuous Delivery to Continuous Deployment."
 featured: './c_delivery.png'
 ---
 
-I work at a young startup. The members of the current engineering team are experienced and smart and come from different backgrounds. We understood the importance of continuously integrating from the start. I want to share our journey of how we moved from `Continuous Delivery` to `Continuous Deployment`.
+I work at a young startup. The engineering team consists of experienced and smart engineers who come from different backgrounds. We understood the importance of continuously integrating from the start. I want to share our journey of how we moved from `Continuous Delivery` to `Continuous Deployment`.
 
 Let's do a quick refresher of the differences between **Continuous Delivery & Continuous Deployment**
 
@@ -17,10 +17,10 @@ Let's do a quick refresher of the differences between **Continuous Delivery & Co
 **Continuous Deployment** takes it one step further and means taking each change all the way through the deployment pipeline and releasing it in all the environments automatically. The key principle is to release things in smaller chunks so that there are less chances of things breaking because of multiple changes aggregated over since the last release. This helps to reduce the Mean Time To Recovery (**MTTR**) as you have a narrow set to inspect in case something breaks.
 ![](./c_deployment.png)
 ____
-Although it is not a novel idea, people inexperienced with it are sometimes apprehensive about it if they don't have experience with it. This is nobody's fault as mostly at a company level, there are multiple technical, organisational, operational or legal challenges that might prevent this.
+Although it is not a novel idea, people inexperienced with it are sometimes apprehensive about it if they don't have experience with it. These concerns are valid and having them is understandable as there are multiple technical, organisational, operational or legal challenges at the company level that might prevent having a Continuous Deployment pipeline.
 
 
-It's a shift in thinking and what's important is to understand that Continuous Deployment when done right actually improves stability. Once developers are used to the idea, they are more conscious when they merge to master to test & ensure that the change is working as expected. In case, if/when something happens to brake, developers have the changes fresh in memory & are already in the context to root-cause, fix and recover.
+It's a shift in thinking and what's important is to understand that Continuous Deployment when done right actually improves stability. Once developers are used to the idea, they are more conscious when they merge code to the `main` branch, to test & ensure that the change is working as expected. In case, if/when something happens to brake, developers have the changes fresh in memory & are already in the context to root-cause, fix and recover.
 
 A Continuous Deployment pipeline ensures that the latest changes are always deployed & keeps the different environments always in sync. It also avoids having to chase and remind people to deploy the latest versions.
 
