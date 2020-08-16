@@ -1,0 +1,224 @@
+---
+title: Continuous Deployment to GKE with Github Actions.
+date: "2020-08-18T12:00:00.000Z"
+description: "Continuously (and securely) deploying to private Kubernetes cluster with Github Actions"
+featured: './mike-benna-X-NAMq6uP3Q-unsplash.jpg'
+---
+
+We are based on Google Cloud Platform and have found it much more developer friendly compared to the other cloud providers that we previously had experience with. Google Cloud uses Service-Accounts to manage IAM permissions and the offers a `gcloud` cli tool to authorise and configure credentials for various other tools like `docker` and `kubectl`.
+
+### Why Github Actions?
+
+One of the biggest pain points of the SRE/DevOps/Platform team at a previous company was managing the Jenkins cluster running CI/CD jobs. A typical self-managed installation has the following problems:
+
+- Auto-scaling with the needs of the day. You need increased capacity to run jobs immediately during the core business hours and reduced capacity otherwise.
+- Jobs might need different versions of software installed. Example - one service needs a different version of `Java` or `node` installed than the other.
+- If the jobs running on the same shared worker node are not isolated properly, they can interfere with each other by relying on the same files and libraries and overwriting them.
+- Jobs running on the same worker can compete for resources leading to increase in the build times or sometimes even timeouts causing flakiness in the pipeline.
+- Constant software maintenance of the main server and the worker nodes. This includes upgrading base OS, patching, or manually updating installed software.
+
+When we were discussing the architecture of the platform at my current organisation, everyone involved had had (painful) experience with some CD server in the past and we all agreed that we didn't want to have a CD server cluster for our own.
+To solve all of the above problems and a few other reasons, we decided to go with [Github Actions](https://github.com/features/actions)
+
+![](./ga.png)
+
+Github Actions provide a simple yaml based syntax to configure jobs that can trigger on any Github event like `push`, `merge` to main branch, etc. These jobs run on servers on one of the 5 Azure cloud regions.
+
+We started by having a simple job to continuously integrate, build & test, create a docker container & push to the container registry. Here's a sample from a `java` service.
+
+```yaml
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2 # checkout repo
+      - uses: actions/setup-java@v1 # Set up latest Java 14
+        with:
+          java-version: 14
+
+      - name: Build with Gradle
+        run: ./gradlew clean build
+
+      - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master # Setup gcloud
+        with:
+          service_account_key: ${{ secrets.GCP_SA_KEY }} # ServiceAccount key with necessary rights added as a secret on Github.
+
+        # Configure credentials for docker
+      - run: gcloud auth configure-docker
+
+        # Build the Docker image
+      - run: docker build -t gcr.io/example.com/${{ github.event.repository.name }}:${{ github.sha }} .
+
+        # Push the Docker image to Google Container Registry
+      - run: docker push gcr.io/example.com/${{ github.event.repository.name }}:${{ github.sha }}
+```
+
+---
+
+### Deploying apps on GKE
+
+Another key piece in our architecture is our **Kubernetes** cluster where services are deployed. We are proudly using [Google Kubernetes Engine](https://cloud.google.com/kubernetes-engine) and so far our experience has been positive as it is easy to manage and scale and eliminates the operation overhead.
+Use `gcloud` cli tool to authorise and configure credentials in the [kubeconfig](https://kubernetes.io/docs/concepts/configuration/organize-cluster-access-kubeconfig/).
+
+Our applications are packaged as [Helm](https://helm.sh/) charts and configured as per the environment needs. It's important to mention this because `helm` utilises `kubeconfig` to interact with the cluster.
+
+Deployments can be created or updated with the latest images from the container registry.
+```bash
+# Creating a deployment
+helm install -f values.yml --set image.version=<latest> example-service example-service
+
+# Updating a deployment
+helm upgrade -f values.yml --set image.version=<latest> example-service example-service
+
+```
+
+The GKE hardening guide suggests restricting the network access to the Kubernetes cluster and creating it as a [private cluster](https://cloud.google.com/kubernetes-engine/docs/concepts/private-cluster-concept). This isolates the nodes from the public internet and the access to Kubernetes API server `master` can be further restricted to specific trusted network IPs only.
+
+
+When we started, we created an allow-list with the specific IP of the machine used to manage the cluster and deploy upgrades manually. We also built a (very cool) UI tool that could be used to deploy, revert & scale deployments.
+
+At this point, this is how it all looked together
+![](./before.png)
+
+For a long time, this worked really well till we started feeling the need for Continuous Deployment. I share the argument for it [here](https://suspendfun.com/2020/A-brief-argument-for-continuous-deployment/).
+
+
+___
+### The challenge
+To have a Continuous Deployment pipeline, we would need to add another step in the Github Action pipeline that would deploy the latest image to the cluster. Let's update the action:
+
+```yaml
+    # ...
+    # same as before
+    # ...
+
+      - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master # Setup gcloud
+        with:
+          service_account_key: ${{ secrets.GCP_SA_KEY }} # ServiceAccount key with necessary rights added as a secret on Github.
+
+        # Configure credentials for docker
+      - run: gcloud auth configure-docker
+
+        # Build the Docker image
+      - run: docker build -t gcr.io/example.com/${{ github.event.repository.name }}:${{ github.sha }} .
+
+        # Push the Docker image to Google Container Registry
+      - run: docker push gcr.io/example.com/${{ github.event.repository.name }}:${{ github.sha }}
+      
+        # Generate kubeconfig entry
+      - run: gcloud container clusters get-credentials <cluster-name> --zone <zone> --project <project>
+      
+        # Install helm
+      - uses: azure/setup-helm@v1
+        id: install
+
+        # Deploy latest version
+      - run: helm upgrade -f values.yaml --set image.version=${{ github.sha }} example-service example-service
+
+```
+
+Unfortunately, this doesn't work & the pipeline fails. This is because Kubernetes server is unreachable over public internet. 
+
+#### Possible solutions (& the bag of problems they come with)
+1. **Make the cluster public** One easy way of making the setup work, would be to make the cluster reachable over internet. However, this would be at the expense of exposing the cluster and would have made the setup less secure. The trade-off would not be worth it.
+
+2. **Add the Action Runner IPs to the Allow-list** While the idea seemed good when I [dug a little deeper](https://docs.github.com/en/actions/reference/virtual-environments-for-github-hosted-runners#ip-addresses-of-github-hosted-runners), I found that the servers that run the job could be any from the 5 Azure regions in US. The Github page lists a way to download a json file containing the IP ranges that is updated periodically. Going down this path would have meant constantly fetching the list & updating the allow-list.
+An automated solution would have been the best but I didn't want to manually parse the file. Luckily, Azure cloud allows to get the IP ranges for [Service Tags](https://docs.microsoft.com/en-us/azure/virtual-network/service-tags-overview#available-service-tags). The problem is that all the IP ranges combined for all 5 regions are 1100+ (the last time I checked) and GKE can only have [50 entries for authorized networks](https://cloud.google.com/kubernetes-engine/docs/how-to/authorized-networks#limitations).
+
+3. Have a light proxy server running that only allows access from the Azure Ip ranges. There wasn't an easy, out of the box solution available that can be configured programmatically to keep updated with the list of IPs.
+
+4. Should I create a publicly accessible API that can be called to trigger deploy? Maybe, I could authenticate with `Basic Auth` and call it secure. ([It's not!](https://security.stackexchange.com/a/990/207084))
+
+All of these seemed unnatural solutions for various reasons. Unable to programmatically configure the firewall, I seemed to have hit a wall.
+
+#### The solution
+I kept thinking for a solution at the back of my head while working on other tasks. I didn't want to manage my own CD servers, I didn't want to risk exposing the cluster & I wanted the build step to reach the Kubernetes control server.
+I stared at the action's yaml looking for a solution more times than I would like to admit till it hit me - I only needed to run the deployment step from a trusted IP.
+
+I can split my job into `build` & `deploy`. The `build` part is the CPU & memory intensive part that compiles code, runs tests, creates artifacts, builds docker image & then pushes it to the container registry. The `deploy` part just deploys the latest image with `helm`.
+Then, once `build` is done on Github hosted action runner, I can run `deploy` on [self-hosted action-runner](https://docs.github.com/en/actions/hosting-your-own-runners/about-self-hosted-runners). 
+
+This self-hosted runner is a compute machine inside Google Cloud having a static IP. I can now configure this static IP into the allow-list of the Kubernetes authorized IP list.
+
+The updated setup looks like this:
+![](./updated.png)
+
+Here's the updated `actions.yaml`:
+
+```yaml
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2 # checkout repo
+      - uses: actions/setup-java@v1 # Set up latest Java 14
+        with:
+          java-version: 14
+
+      - name: Build with Gradle
+        run: ./gradlew clean build
+
+      - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master # Setup gcloud
+        with:
+          service_account_key: ${{ secrets.GCP_SA_KEY }} # ServiceAccount key with necessary rights added as a secret on Github.
+
+        # Configure credentials for docker
+      - run: gcloud auth configure-docker
+
+        # Build the Docker image
+      - run: docker build -t gcr.io/example.com/${{ github.event.repository.name }}:${{ github.sha }} .
+
+        # Push the Docker image to Google Container Registry
+      - run: docker push gcr.io/example.com/${{ github.event.repository.name }}:${{ github.sha }}
+  
+  deploy:
+    runs-on: self-hosted
+    needs: [build] # to block for the build step to complete successfully
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master # Setup gcloud
+        with:
+          service_account_key: ${{ secrets.GCP_SA_KEY }}
+
+        # Generate kubeconfig entry
+      - run: gcloud container clusters get-credentials <cluster-name> --zone <zone> --project <project>
+      
+        # Install helm
+      - uses: azure/setup-helm@v1
+        id: install
+
+        # Deploy latest version
+      - run: helm upgrade -f values.yaml --set image.version=${{ github.sha }} example-service example-service
+
+```
+
+I tried it and it worked perfectly 🎉. 
+
+Since then, we have updated all of our services to use similar pattern of splitting `build` & `deploy` jobs & are now happily shipping code to all environments with each change.
+
+![Photo by Mike Benna on Unsplash](./mike-benna-X-NAMq6uP3Q-unsplash.jpg)
+
+
+How do you do it?
+
+___
+### Permissions required for the Service account.
+* Permission to the storage backing up the container registry. role - `roles/storage.objectAdmin`.
+* Kubernetes cluster developer role to update deployments - `roles/container.developer`
+You can use the pre-existing roles or narrow them down to strictly control permissions.
+
+____
+### References:
+- Hardening GKE cluster - https://cloud.google.com/kubernetes-engine/docs/how-to/hardening-your-cluster
+- Google service accounts - https://cloud.google.com/iam/docs/service-accounts
