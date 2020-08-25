@@ -215,3 +215,7 @@ If you have read so far, I am curious to learn from you?
 * Do you use Github Actions as well? 
 * Do you deploy continuously to Kubernetes as well? 
 * How do you do it now? And if you can, how would you change it?
+
+---
+#### Disclaimer
+*The setup setup shown here is a simplified version that excludes other key components present in the actual environments to focus on the topic discussed above.*
