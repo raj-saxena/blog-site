@@ -1,5 +1,5 @@
 ---
-title: Continuous Deployment to GKE with Github Actions.
+title: Continuously deploying to Kubernetes with Github Actions.
 date: "2020-08-25T12:00:00.000Z"
 description: "Continuously (and securely) deploying to private Kubernetes cluster with Github Actions"
 featured: './mike-benna-X-NAMq6uP3Q-unsplash.jpg'
